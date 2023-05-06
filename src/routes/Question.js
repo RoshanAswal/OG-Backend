@@ -96,6 +96,7 @@ Router.put("/contest/:contest_no/submission",verfiyToken,async (req,res)=>{
 // This api set the ranking of users after the contest note: have to call it manually by admin
 // there is no automatic api call for this api
 
+
 Router.put("/:contest_no/SetRanking",async (req,res)=>{
     const contest_no=req.params.contest_no;
     try{
@@ -110,15 +111,17 @@ Router.put("/:contest_no/SetRanking",async (req,res)=>{
                 return a.correctAnswers-b.correctAnswers;
             }
         });
+
         // creating new contest data for previous contests section with winners
-        let rankArr=[];
-        rankArr = arr.map(obj => obj.userId);
-        rankArr.reverse();
+        // let rankArr=[];
+        // rankArr = arr.map(obj => obj);
+        arr.reverse();
+        let userIds=arr.map(obj => obj.userId);
 
         const lastContest=await UpcomigContestModel.findOne({contest_no});
 
         const newContest=new ContestModel({
-            contest_no,type:"done",winners:rankArr,
+            contest_no,type:"done",winners:userIds,
             schedule:lastContest.schedule,
             sponser:lastContest.sponser,
             prize:lastContest.prize,
@@ -128,11 +131,16 @@ Router.put("/:contest_no/SetRanking",async (req,res)=>{
         newContest.save();
         await UpcomigContestModel.deleteOne({contest_no});
         // increment the contestwon by user
-        let userId=rankArr[0];
+        let userId=arr[0].userId;
         const user=await UserModel.findById(userId);
         user.contestWon+=1;
         user.save();
 
+        for(let i=0;i<arr.length;i++){
+            const user=await UserModel.findById(arr[i].userId);
+            if(arr[i].correctAnswers>user.bestRank)
+                await UserModel.updateOne({ _id: { $in: arr[i].userId } }, { $set: { bestRank: arr[i].correctAnswers } })
+        }
 
         await RankingModel.updateOne({contest_no}, {$set: {"rank": arr}});
         res.json("sorted");
