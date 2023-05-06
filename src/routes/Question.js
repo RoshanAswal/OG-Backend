@@ -5,8 +5,13 @@ import { UpcomigContestModel } from '../models/UpcomigContest.js';
 import {ContestModel} from '../models/Contest.js';
 import { UserModel } from '../models/User.js';
 import { verfiyToken } from './Users.js';
+import moment from 'moment';
 const Router=express.Router();
 
+Router.get('/api/currentTime',async (req,res)=>{
+    const currentTime =moment().format('ddd hh:mm:ss aa');
+    res.send(currentTime);
+})
 
 /* Save the questions for contest */
 Router.post("/questionForUsers",async (req,res)=>{
@@ -28,7 +33,6 @@ Router.post("/ranksForUsers",async (req,res)=>{
 /* Get the questions for the ongoing contest */
 
 Router.get("/questionForUsers/:contest_no",async (req,res)=>{
-    console.log(req.body);
     try{
         const response=await QuestionModel.findOne({contest_no:req.params.contest_no});
         res.json(response);

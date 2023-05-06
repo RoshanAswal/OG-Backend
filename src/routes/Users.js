@@ -54,7 +54,6 @@ router.post("/getOtp",async (req,res)=>{
 
     try{
         await transporter.sendMail(message);
-        console.log("sent");
     }catch(err){
         console.log(err);
     }
@@ -108,7 +107,6 @@ router.post("/login",async (req,res)=>{
 
 router.post("/forgotPassword",async (req,res)=>{
     const email=req.body.email;
-    console.log(email);
     const mail=await UserModel.findOne({email});
     
     if(!mail){
