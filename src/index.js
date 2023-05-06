@@ -1,12 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import { UserRouter } from './src/routes/Users.js';
-import { ContestRouter } from './src/routes/Contests.js';
-import { ProfileRouter } from './src/routes/Profile.js';
-import { QuestionRouter } from './src/routes/Question.js';
-import { PostRouter } from './src/routes/Posts.js';
-import { PaymentRouter } from './src/routes/Payment.js';
+import { UserRouter } from './routes/Users.js';
+import { ContestRouter } from './routes/Contests.js';
+import { ProfileRouter } from './routes/Profile.js';
+import { QuestionRouter } from './routes/Question.js';
+import { PostRouter } from './routes/Posts.js';
+import { PaymentRouter } from './routes/Payment.js';
 import cors from 'cors';
 import dotenv from "dotenv";
 
@@ -34,4 +34,3 @@ mongoose.connect(process.env.mongoConn,{
 app.listen(3001,()=>{
     console.log("Running");
 })
-module.exports=app;
