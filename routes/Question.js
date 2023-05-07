@@ -139,7 +139,7 @@ Router.put("/:contest_no/SetRanking",async (req,res)=>{
         let userId=arr[0].userId;
         const user=await UserModel.findById(userId);
         user.contestWon+=1;
-        user.save();
+        await user.save();
 
         for(let i=0;i<arr.length;i++){
             const user=await UserModel.findById(arr[i].userId);
@@ -162,12 +162,12 @@ Router.put("/:contest_no/setTime",verfiyToken,async (req,res)=>{
     const contest_no=req.params.contest_no;
     try{
         await RankingModel.updateOne({contest_no:contest_no, "rank.userId":userId}, {$set: {"rank.$.timeTaken": totalTime}});
-        
-        const user=await UserModel.findById(userId);
         // if(!user.bestTime || user.bestTime<totalTime)
         //     await UserModel.updateOne({userId},{$set:{bestTime:totalTime}}); // updating the best time of user till now
 
-        await UserModel.updateOne({userId},{$set:{contestAttempted:user.contestAttempted+1}}); // incrementing the contest attempted
+        const user=await UserModel.findById(userId);
+        user.contestAttempted+=1;
+        await user.save();
         res.json(totalTime);   
     }catch(err){
         console.log(err);
