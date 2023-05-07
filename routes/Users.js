@@ -159,6 +159,7 @@ export const verfiyToken=(req,res,next)=>{
           next();  
       });
     }else{
+        window.localStorage.removeItem("userId");
         res.redirect('https://og-backend-laj1oyahd-roshanaswal.vercel.app/register');
     }
 }
