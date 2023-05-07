@@ -5,7 +5,7 @@ import { UpcomigContestModel } from '../models/UpcomigContest.js';
 import {ContestModel} from '../models/Contest.js';
 import { UserModel } from '../models/User.js';
 import { verfiyToken } from './Users.js';
-import moment from 'moment-timezone';
+import moment from 'moment';
 const Router=express.Router();
 
 Router.get('/api/currentTime',async (req,res)=>{
@@ -14,7 +14,8 @@ Router.get('/api/currentTime',async (req,res)=>{
     // const istTime = moment.utc(utcTime).tz('Asia/Kolkata').format('ddd hh:mm:ss aa');
     
     // res.send(istTime); 
-    res.send("hey");
+    const time=moment().format('ddd hh:mm:ss aa');
+    res.send(time);
     
 })
 
