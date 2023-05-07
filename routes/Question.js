@@ -5,16 +5,16 @@ import { UpcomigContestModel } from '../models/UpcomigContest.js';
 import {ContestModel} from '../models/Contest.js';
 import { UserModel } from '../models/User.js';
 import { verfiyToken } from './Users.js';
-import moment from 'moment';
+import moment from 'moment-timezone';
 const Router=express.Router();
 
 Router.get('/api/currentTime',async (req,res)=>{
-    // const moment=moment();
+    const moment=moment();
     // const utcTime = '2022-05-11T12:00:00Z';
     // const istTime = moment.utc(utcTime).tz('Asia/Kolkata').format('ddd hh:mm:ss aa');
     
     // res.send(istTime); 
-    const time=moment().format('ddd hh:mm:ss aa');
+    const time=moment.unix(utc).tz('Asia/Kolkata').format('ddd hh:mm:ss aa');
     res.send(time);
     
 })
