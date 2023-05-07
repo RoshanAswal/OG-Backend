@@ -15,7 +15,7 @@ Router.get('/api/currentTime',async (req,res)=>{
 })
 
 /* Save the questions for contest */
-Router.post("/questionForUsers",verfiyToken,async (req,res)=>{
+Router.post("/questionForUsers",async (req,res)=>{
     const response=req.body;
     const newQuestions=new QuestionModel(response);
     await newQuestions.save();
@@ -33,7 +33,7 @@ Router.post("/ranksForUsers",async (req,res)=>{
 
 /* Get the questions for the ongoing contest */
 
-Router.get("/questionForUsers/:contest_no",async (req,res)=>{
+Router.get("/questionForUsers/:contest_no",verfiyToken,async (req,res)=>{
     try{
         const response=await QuestionModel.findOne({contest_no:req.params.contest_no});
         res.json(response);
