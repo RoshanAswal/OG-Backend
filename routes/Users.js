@@ -137,7 +137,7 @@ router.get("/ranking",async (req,res)=>{
         const users=await UserModel.find({});
         users.sort((a,b)=>{
             if(a.contestWon===b.contestWon){
-                if(a.bestTime<b.bestTime)return -1;
+                if(a.bestRank<b.bestRank)return -1;
                 else return 1;
             }else{
                 return a.contestWon-b.contestWon;
