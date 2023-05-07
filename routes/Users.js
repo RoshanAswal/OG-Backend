@@ -156,7 +156,7 @@ export const verfiyToken=(req,res,next)=>{
     if(token){
       jwt.verify(token,process.env.SECRET,(err)=>{
         if(err)return res.sendStatus(403);
-          next();  
+        next();  
       });
     }else{
         window.localStorage.removeItem("userId");
