@@ -33,7 +33,7 @@ Router.post("/ranksForUsers",async (req,res)=>{
 
 /* Get the questions for the ongoing contest */
 
-Router.get("/questionForUsers/:contest_no",verfiyToken,async (req,res)=>{
+Router.get("/questionForUsers/:contest_no",async (req,res)=>{
     try{
         const response=await QuestionModel.findOne({contest_no:req.params.contest_no});
         res.json(response);
@@ -44,7 +44,7 @@ Router.get("/questionForUsers/:contest_no",verfiyToken,async (req,res)=>{
 
 /* submitting answers of users */
 
-Router.put("/contest/:contest_no/submission",async (req,res)=>{
+Router.put("/contest/:contest_no/submission",verfiyToken,async (req,res)=>{
     const userId=req.body.userId;
     const contest_no=req.params.contest_no;
     const ind=req.body.index;
