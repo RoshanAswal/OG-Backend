@@ -9,8 +9,7 @@ import moment from 'moment-timezone';
 const Router=express.Router();
 
 Router.get('/api/currentTime',async (req,res)=>{
-    const moment = require('moment-timezone');
-
+    const moment=moment();
     const utcTime = '2022-05-11T12:00:00Z';
     const istTime = moment.utc(utcTime).tz('Asia/Kolkata').format('ddd hh:mm:ss aa');
     
