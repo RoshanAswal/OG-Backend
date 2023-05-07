@@ -159,6 +159,6 @@ export const verfiyToken=(req,res,next)=>{
           next();  
       });
     }else{
-        res.redirect('/register');
+        res.redirect('https://og-backend-laj1oyahd-roshanaswal.vercel.app/register');
     }
 }
