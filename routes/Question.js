@@ -5,11 +5,14 @@ import { UpcomigContestModel } from '../models/UpcomigContest.js';
 import {ContestModel} from '../models/Contest.js';
 import { UserModel } from '../models/User.js';
 import { verfiyToken } from './Users.js';
-import moment from 'moment';
+import moment from 'moment-timezone';
 const Router=express.Router();
 
 Router.get('/api/currentTime',async (req,res)=>{
-    const currentTime =moment().format('ddd hh:mm:ss aa');
+    const now=moment();
+    const ist=now.tz('Asia/Kolkata');
+    const currentTime =ist.format('ddd hh:mm:ss aa');
+    console.log(currentTime);
     res.send(currentTime);
 })
 
