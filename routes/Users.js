@@ -143,7 +143,7 @@ router.get("/ranking",async (req,res)=>{
                 return a.contestWon-b.contestWon;
             }
         });
-        res.json(users);
+        res.json(users.reverse());
     }catch(err){
         console.log(err);
     }

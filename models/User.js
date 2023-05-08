@@ -12,7 +12,6 @@ const UserSchema=new mongoose.Schema({
     favGame:{type:String},
     favCharacter:{type:String},
     bestRank:{type:Number,default:0},
-    bestTime:{type:Number,default:600},
     contestAttempted:{type:Number,default:0},
     contestWon:{type:Number,default:0},
     img:{
