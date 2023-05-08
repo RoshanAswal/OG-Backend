@@ -67,6 +67,9 @@ router.post("/register",async (req,res)=>{
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
     }=req.body;
+    username=username.trim();
+    password=password.trim();
+    email=email.trim();
     const user=await UserModel.findOne({username});
     const mail=await UserModel.findOne({email});
 
