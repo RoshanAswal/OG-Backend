@@ -10,9 +10,7 @@ const Router=express.Router();
 
 Router.get('/api/currentTime',async (req,res)=>{
     const time=moment().tz('Asia/Kolkata').format('ddd hh:mm:ss aa');
-    console.log(time);
     res.send(time);
-
 })
 
 
