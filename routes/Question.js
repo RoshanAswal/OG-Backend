@@ -102,7 +102,7 @@ Router.put("/contest/:contest_no/submission",verfiyToken,async (req,res)=>{
 // there is no automatic api call for this api
 
 
-Router.put("/:contest_no/SetRanking",async (req,res)=>{
+Router.get("/:contest_no/SetRanking",async (req,res)=>{
     const contest_no=req.params.contest_no;
     try{
         // Sorting the ranks of users
