@@ -54,8 +54,8 @@ Router.put("/contest/:contest_no/submission",verfiyToken,async (req,res)=>{
     try{
         // checking the user inside ranking model to update his score
         const contest=await ContestModel.findOne({contest_no});
-        if(contest.type==="done")return res.json("contest attempted");
-        
+        if(contest)return res.json("contest attempted");
+
         const response=await RankingModel.findOne({
             rank:{$elemMatch:{userId:userId}}  
         },{"rank.$":1});
@@ -169,7 +169,7 @@ Router.put("/:contest_no/setTime",verfiyToken,async (req,res)=>{
         //     await UserModel.updateOne({userId},{$set:{bestTime:totalTime}}); // updating the best time of user till now
 
         const contest=await ContestModel.findOne({contest_no});
-        if(contest.type==="done")return res.json("contest attempted");
+        if(contest)return res.json("contest attempted");
         const user=await UserModel.findById(userId);
         if(user.attemptedContest.includes(contest_no)){/*nothing*/}
         else{
