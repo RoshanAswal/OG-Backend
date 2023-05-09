@@ -67,11 +67,11 @@ router.post("/register",async (req,res)=>{
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
     }=req.body;
-    username=username.trim();
-    password=password.trim();
-    email=email.trim();
-    const user=await UserModel.findOne({username});
-    const mail=await UserModel.findOne({email});
+    let Username=username.trim();
+    let Password=password.trim();
+    let Email=email.trim();
+    const user=await UserModel.findOne({username:Username});
+    const mail=await UserModel.findOne({email:Email});
 
     if(user){
         return res.json({message:"username"});
@@ -80,9 +80,9 @@ router.post("/register",async (req,res)=>{
         return res.json({message:"email"});
     }
 
-    const hashedPass=await bcrypt.hash(password,10);
+    const hashedPass=await bcrypt.hash(Password,10);
     const newuser=new UserModel({
-        username,password:hashedPass,email,caption,
+        username:Username,password:hashedPass,email:Email,caption,
         gender,country,socialURL,favAnime,
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
