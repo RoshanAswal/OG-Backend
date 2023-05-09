@@ -14,7 +14,7 @@ router.get("/profile/:userId",async (req,res)=>{
         if(user)
           res.send(user);
         else 
-          res.send("");
+          res.send("not found");
       }
     }catch(err){
         console.log(err);
