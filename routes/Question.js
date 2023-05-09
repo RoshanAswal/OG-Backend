@@ -53,7 +53,9 @@ Router.put("/contest/:contest_no/submission",verfiyToken,async (req,res)=>{
     const correct=req.body.correct;
     try{
         // checking the user inside ranking model to update his score
-
+        const contest=await ContestModel.findOne({contest_no});
+        if(contest.type==="done")return res.json("contest attempted");
+        
         const response=await RankingModel.findOne({
             rank:{$elemMatch:{userId:userId}}  
         },{"rank.$":1});
