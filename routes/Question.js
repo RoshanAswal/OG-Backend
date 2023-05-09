@@ -167,7 +167,7 @@ Router.put("/:contest_no/setTime",verfiyToken,async (req,res)=>{
         //     await UserModel.updateOne({userId},{$set:{bestTime:totalTime}}); // updating the best time of user till now
 
         const contest=await ContestModel.findOne({contest_no});
-        if(contest.type==="done")return;
+        if(contest.type==="done")return res.json("contest attempted");
         const user=await UserModel.findById(userId);
         if(user.attemptedContest.includes(contest_no)){/*nothing*/}
         else{
