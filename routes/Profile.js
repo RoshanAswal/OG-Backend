@@ -11,7 +11,10 @@ router.get("/profile/:userId",async (req,res)=>{
     try{
       if(userId){
         const user=await UserModel.findById(userId);
-        res.send(user);
+        if(user)
+          res.send(user);
+        else 
+          res.send("");
       }
     }catch(err){
         console.log(err);
