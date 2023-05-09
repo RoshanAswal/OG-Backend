@@ -163,6 +163,6 @@ export const verfiyToken=(req,res,next)=>{
       });
     }else{
         window.localStorage.removeItem("userId");
-        res.redirect('https://og-backend-laj1oyahd-roshanaswal.vercel.app/register');
+        res.redirect('https://www.only-geeks.com/register');
     }
 }

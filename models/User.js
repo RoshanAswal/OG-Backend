@@ -14,6 +14,7 @@ const UserSchema=new mongoose.Schema({
     bestRank:{type:Number,default:0},
     contestAttempted:{type:Number,default:0},
     contestWon:{type:Number,default:0},
+    attemptedContest:[{type:Number}],
     img:{
         public_id:{type:String},
         url:{type:String},

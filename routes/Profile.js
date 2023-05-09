@@ -54,7 +54,6 @@ router.post("/profile/:userId/edit",verfiyToken,async (req,res)=>{
     }catch(err){
       console.log(err);
     }
-
 });
 
 router.put(`/profile/:userId/delete`,verfiyToken,async (req,res)=>{
