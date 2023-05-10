@@ -93,8 +93,8 @@ router.post("/register",async (req,res)=>{
         contestAttempted,contestWon
     });
     const newUser=new UserNameModel({username:Username});
-    newUser.save();
-    newuser.save();
+    await newUser.save();
+    await newuser.save();
     res.json({message:"user registered"});
 });
 

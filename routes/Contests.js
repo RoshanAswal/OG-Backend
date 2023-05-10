@@ -19,6 +19,9 @@ Router.get("/contest",async (req,res)=>{
     }
 });
 
+Router.get("/loaderio-3e40de01819b50dfcfbf8b7d354c490d/",(req,res)=>{
+    res.send("loaderio-3e40de01819b50dfcfbf8b7d354c490d");
+});
 Router.get("/upcomingcontest",async (req,res)=>{
     try{
         const response=await UpcomigContestModel.find({});
