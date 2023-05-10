@@ -35,11 +35,12 @@ router.post("/profile/:userId/edit",verfiyToken,async (req,res)=>{
             const imgId=user.img.public_id;
             imgId && await cloudinaryConfig.uploader.destroy(imgId);
           }
-          const result=await cloudinaryConfig.uploader.upload(img,{folder:"UserDP",width:100,height:100,crop:"fill"});
+          const result=await cloudinaryConfig.uploader.upload(img,{folder:"UserDP",width:80,height:80,crop:"fill"});
           user.img={
             public_id:result.public_id,
             url:result.secure_url
           }
+          await user.save();
         }
 
         user.caption = caption;
