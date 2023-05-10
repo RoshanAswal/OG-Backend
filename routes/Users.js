@@ -1,5 +1,6 @@
 import express from 'express';
 import { UserModel } from '../models/User.js';
+import { UserNameModel } from '../models/UserNames.js';
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -72,12 +73,16 @@ router.post("/register",async (req,res)=>{
     let Email=email.trim();
     const user=await UserModel.findOne({username:Username});
     const mail=await UserModel.findOne({email:Email});
+    const uniqueName=await UserNameModel.findOne({username:Username})
 
     if(user){
         return res.json({message:"username"});
     }
     if(mail){
         return res.json({message:"email"});
+    }
+    if(uniqueName){
+        return res.json({message:"notUnique"})
     }
 
     const hashedPass=await bcrypt.hash(Password,10);
@@ -87,6 +92,8 @@ router.post("/register",async (req,res)=>{
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
     });
+    const newUser=new UserNameModel({username:Username});
+    newUser.save();
     newuser.save();
     res.json({message:"user registered"});
 });
