@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import nodemailer from 'nodemailer';
 import mailgen from 'mailgen';
+import CryptoJS from 'crypto-js';
 
 const router=express.Router();
 dotenv.config();
@@ -68,12 +69,11 @@ router.post("/register",async (req,res)=>{
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
     }=req.body;
-    let Username=username.trim();
-    let Password=password.trim();
-    let Email=email.trim();
-    const user=await UserModel.findOne({username:Username});
+    let Password=CryptoJS.AES.decrypt(password,process.env.SECRET);
+    let Email=CryptoJS.AES.decrypt(email,process.env.SECRET);
+    const user=await UserModel.findOne({username});
     const mail=await UserModel.findOne({email:Email});
-    const uniqueName=await UserNameModel.findOne({username:Username})
+    const uniqueName=await UserNameModel.findOne({username})
 
     if(user){
         return res.json({message:"username"});
@@ -87,12 +87,12 @@ router.post("/register",async (req,res)=>{
 
     const hashedPass=await bcrypt.hash(Password,10);
     const newuser=new UserModel({
-        username:Username,password:hashedPass,email:Email,caption,
+        username,password:hashedPass,email:Email,caption,
         gender,country,socialURL,favAnime,
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
     });
-    const newUser=new UserNameModel({username:Username});
+    const newUser=new UserNameModel({username});
     await newUser.save();
     await newuser.save();
     res.json({message:"user registered"});
@@ -100,12 +100,13 @@ router.post("/register",async (req,res)=>{
 
 router.post("/login",async (req,res)=>{
     const {username,password}=req.body;
+    const Pass=CryptoJS.AES.decrypt(password,process.env.SECRET);
     const user=await UserModel.findOne({username});
 
     if(!user){
         return res.json({message:"user not found"});
     }
-    const hashedPass=await bcrypt.compare(password,user.password);
+    const hashedPass=await bcrypt.compare(Pass,user.password);
     
     if(!hashedPass){
         return res.json({message:"Password or username does not match"});
@@ -129,8 +130,10 @@ router.post("/setNewPassword",async (req,res)=>{
     const password=req.body.password;
     const email=req.body.email;
     try{
-        const hashedPass=await bcrypt.hash(password,10);
-        const user=await UserModel.findOne({email});
+        const DecryptPass=CryptoJS.AES.decrypt(password,process.env.SECRET);
+        const DecryptMail=CryptoJS.AES.decrypt(email,process.env.SECRET);
+        const hashedPass=await bcrypt.hash(DecryptPass,10);
+        const user=await UserModel.findOne({email:DecryptMail});
         user.password=hashedPass;    
         await user.save();
         res.json("changed");
