@@ -69,10 +69,10 @@ router.post("/register",async (req,res)=>{
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
     }=req.body;
-    let Password=CryptoJS.AES.decrypt(password,process.env.SECRET);
-    let Email=CryptoJS.AES.decrypt(email,process.env.SECRET);
+    // let Password=CryptoJS.AES.decrypt(password,process.env.SECRET);
+    // let Email=CryptoJS.AES.decrypt(email,process.env.SECRET);
     const user=await UserModel.findOne({username});
-    const mail=await UserModel.findOne({email:Email});
+    const mail=await UserModel.findOne({email});
     const uniqueName=await UserNameModel.findOne({username})
 
     if(user){
@@ -85,9 +85,9 @@ router.post("/register",async (req,res)=>{
         return res.json({message:"notUnique"})
     }
 
-    const hashedPass=await bcrypt.hash(Password,10);
+    const hashedPass=await bcrypt.hash(password,10);
     const newuser=new UserModel({
-        username,password:hashedPass,email:Email,caption,
+        username,password:hashedPass,email,caption,
         gender,country,socialURL,favAnime,
         favGame,favCharacter,bestRank,
         contestAttempted,contestWon
@@ -100,13 +100,13 @@ router.post("/register",async (req,res)=>{
 
 router.post("/login",async (req,res)=>{
     const {username,password}=req.body;
-    const Pass=CryptoJS.AES.decrypt(password,process.env.SECRET);
+    // const Pass=CryptoJS.AES.decrypt(password,process.env.SECRET);
     const user=await UserModel.findOne({username});
 
     if(!user){
         return res.json({message:"user not found"});
     }
-    const hashedPass=await bcrypt.compare(Pass,user.password);
+    const hashedPass=await bcrypt.compare(password,user.password);
     
     if(!hashedPass){
         return res.json({message:"Password or username does not match"});
@@ -130,10 +130,10 @@ router.post("/setNewPassword",async (req,res)=>{
     const password=req.body.password;
     const email=req.body.email;
     try{
-        const DecryptPass=CryptoJS.AES.decrypt(password,process.env.SECRET);
-        const DecryptMail=CryptoJS.AES.decrypt(email,process.env.SECRET);
-        const hashedPass=await bcrypt.hash(DecryptPass,10);
-        const user=await UserModel.findOne({email:DecryptMail});
+        // const DecryptPass=CryptoJS.AES.decrypt(password,process.env.SECRET);
+        // const DecryptMail=CryptoJS.AES.decrypt(email,process.env.SECRET);
+        const hashedPass=await bcrypt.hash(password,10);
+        const user=await UserModel.findOne({email});
         user.password=hashedPass;    
         await user.save();
         res.json("changed");
